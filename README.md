@@ -84,7 +84,7 @@ manually too.
 > This applies only if you have installed the Symfony Form component. 
 
 The main usage of the html-sanitizer is in combination with forms. This bundle provides a TextType extension
-which allows you to automatically sanitize HTML on any text field of any field based on the TextType
+which allows you to automatically sanitize HTML of any text field or any field based on the TextType
 (TextareaType, SearchType, etc.). 
 
 To use it in any of your forms, you can use the `sanitize_html` option:
