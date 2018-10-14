@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=7.1",
-        "symfony/framework-bundle": "^4.0",
+        "symfony/framework-bundle": "^3.4|^4.0",
         "tgalopin/html-sanitizer": "dev-master"
     },
     "require-dev": {
