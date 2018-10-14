@@ -1,0 +1,25 @@
+{
+    "name": "tgalopin/html-sanitizer-bundle",
+    "description": "Symfony Bundle for https://github.com/tgalopin/html-sanitizer",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Titouan Galopin",
+            "email": "galopintitouan@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "HtmlSanitizer\\Bundle\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "symfony/framework-bundle": "^4.0",
+        "tgalopin/html-sanitizer": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.4"
+    }
+}
