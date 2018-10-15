@@ -27,7 +27,7 @@ class TwigExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sanitize_html', [$this, 'validateProjectSubmit']),
+            new TwigFilter('sanitize_html', [$this, 'sanitize'], ['is_safe' => ['html']]),
         ];
     }
 
