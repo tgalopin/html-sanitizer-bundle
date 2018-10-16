@@ -1,12 +1,16 @@
 # html-sanitizer-bundle
 
+[![Build Status](https://travis-ci.org/tgalopin/html-sanitizer-bundle.svg?branch=master)](https://travis-ci.org/tgalopin/html-sanitizer-bundle)
+
+[![SymfonyInsight](https://insight.symfony.com/projects/760ca691-4f3a-4cd6-9b3e-bf131ffc07c7/big.svg)](https://insight.symfony.com/projects/760ca691-4f3a-4cd6-9b3e-bf131ffc07c7)
+
 [html-sanitizer](https://github.com/tgalopin/html-sanitizer)
 is a library aiming at handling, cleaning and sanitizing HTML sent by external users
 (who you cannot trust), allowing you to store it and display it safely. It has sensible defaults
 to provide a great developer experience while still being entierely configurable.
 
-This repository is a Symfony bundle integrating this library into Symfony applications.
-It provides helpful tools on top of the sanitizer to easily use it in Symfony.
+This repository is a Symfony bundle integrating the [html-sanitizer](https://github.com/tgalopin/html-sanitizer)
+library into Symfony applications. It provides helpful tools on top of the sanitizer to easily use it in Symfony.
 
 - [Installation](#installation)
 - [Configuration](#configuration)
@@ -77,7 +81,7 @@ class MyController
 ```
 
 If you are not using autowiring, you can inject the `html_sanitizer` service into your services
-manually too.
+manually.
 
 ## Usage in forms
 
