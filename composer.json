@@ -22,7 +22,7 @@
     "require": {
         "php": ">=7.1",
         "symfony/framework-bundle": "^3.4|^4.0",
-        "tgalopin/html-sanitizer": "dev-master"
+        "tgalopin/html-sanitizer": "^0.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.4",
