@@ -1,2 +1,4 @@
 vendor
 composer.lock
+tests/Fixtures/*/cache
+tests/Fixtures/*/logs
