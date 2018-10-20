@@ -1,7 +1,7 @@
 # html-sanitizer-bundle
 
 > This package is in beta for now, until we are confident that every aspect of security related to HTML
-> sanitization is appropriately covered.
+> sanitation is appropriately covered.
 
 [![Build Status](https://travis-ci.org/tgalopin/html-sanitizer-bundle.svg?branch=master)](https://travis-ci.org/tgalopin/html-sanitizer-bundle)
 
