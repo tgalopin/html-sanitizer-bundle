@@ -1,5 +1,8 @@
 # html-sanitizer-bundle
 
+> This package is in beta for now, until we are confident that every aspect of security related to HTML
+> sanitization is appropriately covered.
+
 [![Build Status](https://travis-ci.org/tgalopin/html-sanitizer-bundle.svg?branch=master)](https://travis-ci.org/tgalopin/html-sanitizer-bundle)
 
 [![SymfonyInsight](https://insight.symfony.com/projects/760ca691-4f3a-4cd6-9b3e-bf131ffc07c7/big.svg)](https://insight.symfony.com/projects/760ca691-4f3a-4cd6-9b3e-bf131ffc07c7)
