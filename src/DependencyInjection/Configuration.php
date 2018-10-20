@@ -22,7 +22,9 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('html_sanitizer', 'variable');
+
+        $rootNode = $treeBuilder->root('html_sanitizer');
+        $rootNode->children()->variableNode('sanitizer')->defaultValue([])->end()->end();
 
         return $treeBuilder;
     }

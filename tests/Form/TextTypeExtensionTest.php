@@ -67,8 +67,10 @@ class TextTypeExtensionAppKernel extends Kernel
             $container->loadFromExtension('framework', ['secret' => '$ecret']);
 
             $container->loadFromExtension('html_sanitizer', [
-                'extensions' => ['basic', 'image'],
-                'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                'sanitizer' => [
+                    'extensions' => ['basic', 'image'],
+                    'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                ],
             ]);
         });
     }

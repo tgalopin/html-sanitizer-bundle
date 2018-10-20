@@ -59,8 +59,10 @@ class TwigExtensionAppKernel extends Kernel
             $container->loadFromExtension('twig', ['paths' => [__DIR__.'/templates']]);
 
             $container->loadFromExtension('html_sanitizer', [
-                'extensions' => ['basic', 'image'],
-                'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                'sanitizer' => [
+                    'extensions' => ['basic', 'image'],
+                    'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                ],
             ]);
         });
     }

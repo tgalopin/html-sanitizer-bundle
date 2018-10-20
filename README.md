@@ -30,15 +30,16 @@ composer require tgalopin/html-sanitizer-bundle
 
 ## Configuration
 
-You can configure the sanitizer using the `html_sanitizer` configuration key:
+You can configure the sanitizer using the `html_sanitizer.sanitizer` configuration key:
 
 ```yaml
 html_sanitizer:
-    extensions: ['basic', 'image', 'list']
-    tags:
-        img:
-            allowed_hosts: ['127.0.0.1', 'mywebsite.com', 'youtube.com']
-            force_https: true
+    sanitizer:
+        extensions: ['basic', 'image', 'list']
+        tags:
+            img:
+                allowed_hosts: ['127.0.0.1', 'mywebsite.com', 'youtube.com']
+                force_https: true
 ```
 
 Have a look at the [library documentation](https://github.com/tgalopin/html-sanitizer) to learn all the available
@@ -115,4 +116,24 @@ A `sanitize_html` Twig filter is provided through an extension, letting you filt
 <div>
     {{ html|sanitize_html }}
 </div>
+```
+
+## Registering an extension
+
+If you use autoconfiguration, classes implementing the `HtmlSanitizer\Extension\ExtensionInterface` interface
+will be automatically registered and you can use them in your sanitizer configuration:
+
+```yaml
+html_sanitizer:
+    sanitizer:
+        extensions: ['basic', 'my-extension']
+```
+
+If you don't use autoconfiguration, you need to register your extension as a service tagged `html_sanitizer.extension`:
+
+```yaml
+services:
+    app.sanitizer.my_extension:
+        class: 'App\Sanitizer\MyExtension'
+        tags: [{ name: 'html_sanitizer.extension' }]
 ```
