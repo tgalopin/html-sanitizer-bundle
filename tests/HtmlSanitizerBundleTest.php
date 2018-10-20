@@ -34,7 +34,7 @@ class HtmlSanitizerBundleTest extends TestCase
     {
         $kernel->boot();
 
-        $this->assertSame([], $kernel->getContainer()->getParameter('html_sanitizer.configuration'));
+        $this->assertArrayHasKey('HtmlSanitizerBundle', $kernel->getBundles());
     }
 }
 
@@ -49,6 +49,12 @@ class EmptyAppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
+        $loader->load(function ($container) {
+            $container->loadFromExtension('html_sanitizer', [
+                'default_sanitizer' => 'default',
+                'sanitizers' => ['default' => ['extensions' => ['basic']]],
+            ]);
+        });
     }
 }
 
@@ -65,6 +71,11 @@ class FrameworkAppKernel extends Kernel
     {
         $loader->load(function ($container) {
             $container->loadFromExtension('framework', ['secret' => '$ecret']);
+
+            $container->loadFromExtension('html_sanitizer', [
+                'default_sanitizer' => 'default',
+                'sanitizers' => ['default' => ['extensions' => ['basic']]],
+            ]);
         });
     }
 }
@@ -82,6 +93,11 @@ class TwigAppKernel extends Kernel
     {
         $loader->load(function ($container) {
             $container->loadFromExtension('framework', ['secret' => '$ecret']);
+
+            $container->loadFromExtension('html_sanitizer', [
+                'default_sanitizer' => 'default',
+                'sanitizers' => ['default' => ['extensions' => ['basic']]],
+            ]);
         });
     }
 }

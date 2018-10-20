@@ -11,8 +11,7 @@
 
 namespace HtmlSanitizer\Bundle\Form;
 
-use HtmlSanitizer\SanitizerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,13 +19,15 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TextTypeExtension extends AbstractTypeExtension implements EventSubscriberInterface
+class TextTypeExtension extends AbstractTypeExtension
 {
-    private $sanitizer;
+    private $sanitizers;
+    private $default;
 
-    public function __construct(SanitizerInterface $sanitizer)
+    public function __construct(ContainerInterface $sanitizers, string $default)
     {
-        $this->sanitizer = $sanitizer;
+        $this->sanitizers = $sanitizers;
+        $this->default = $default;
     }
 
     public function getExtendedType()
@@ -34,38 +35,41 @@ class TextTypeExtension extends AbstractTypeExtension implements EventSubscriber
         return TextType::class;
     }
 
-    public static function getSubscribedEvents()
-    {
-        return [
-            FormEvents::PRE_SUBMIT => ['sanitize', 999999 /* as soon as possible */],
-        ];
-    }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(['sanitize_html' => false])
+            ->setDefaults(['sanitize_html' => false, 'sanitizer' => null])
             ->setAllowedTypes('sanitize_html', 'bool')
+            ->setAllowedTypes('sanitizer', ['string', 'null'])
         ;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['sanitize_html']) {
-            $builder->addEventSubscriber($this);
+            $builder->addEventListener(
+                FormEvents::PRE_SUBMIT,
+                $this->createSanitizeListener($options['sanitizer']),
+                999999 /* as soon as possible */
+            );
         }
     }
 
-    public function sanitize(FormEvent $event)
+    public function createSanitizeListener(?string $sanitizer)
     {
-        if (!is_scalar($data = $event->getData())) {
-            return;
-        }
+        $registry = $this->sanitizers;
+        $default = $this->default;
 
-        if (0 === mb_strlen($html = trim($data))) {
-            return;
-        }
+        return function (FormEvent $event) use ($registry, $default, $sanitizer) {
+            if (!is_scalar($data = $event->getData())) {
+                return;
+            }
 
-        $event->setData($this->sanitizer->sanitize($html));
+            if (0 === mb_strlen($html = trim($data))) {
+                return;
+            }
+
+            $event->setData($registry->get($sanitizer ?: $default)->sanitize($html));
+        };
     }
 }

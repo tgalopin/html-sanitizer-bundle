@@ -9,11 +9,6 @@
 
         <service id="html_sanitizer.builder" class="HtmlSanitizer\SanitizerBuilder" />
 
-        <service id="html_sanitizer" class="HtmlSanitizer\SanitizerInterface">
-            <factory service="html_sanitizer.builder" method="build" />
-            <argument>%html_sanitizer.configuration%</argument>
-        </service>
-
         <service id="html_sanitizer.extension.basic" class="HtmlSanitizer\Extension\Basic\BasicExtension">
             <tag name="html_sanitizer.extension" />
         </service>
@@ -42,6 +37,6 @@
             <tag name="html_sanitizer.extension" />
         </service>
 
-        <service id="HtmlSanitizer\SanitizerInterface" alias="html_sanitizer" />
+        <service id="html_sanitizer.registry" class="Symfony\Component\DependencyInjection\ServiceLocator" />
     </services>
 </container>

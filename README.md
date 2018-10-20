@@ -34,26 +34,34 @@ composer require tgalopin/html-sanitizer-bundle
 
 ## Configuration
 
-You can configure the sanitizer using the `html_sanitizer.sanitizer` configuration key:
+You can configure the bundle using the `html_sanitizer` configuration section:
 
 ```yaml
 html_sanitizer:
-    sanitizer:
-        extensions: ['basic', 'image', 'list']
-        tags:
-            img:
-                allowed_hosts: ['127.0.0.1', 'mywebsite.com', 'youtube.com']
-                force_https: true
+    default_sanitizer: 'default'
+    sanitizers:
+        default:
+            extensions: ['basic', 'image', 'list']
+            tags:
+                img:
+                    allowed_hosts: ['127.0.0.1', 'mywebsite.com', 'youtube.com']
+                    force_https: true
+        admin_content:
+            extensions: ['basic', 'image', 'list']
 ```
 
+As you see, you can have multiple sanitizers available at the same time in your application.
 Have a look at the [library documentation](https://github.com/tgalopin/html-sanitizer) to learn all the available
-configuration options.
+configuration options for the sanitizers themselves.
 
 ## Usage in services
 
 This bundle provides the configured sanitizer for autowiring using the interface 
-`HtmlSanitizer\SanitizerInterface`. This means that if you are using autowiring, you can simply
-typehint the sanitizer in any of your services to get it:
+`HtmlSanitizer\SanitizerInterface`. This autowiring will target the default sanitizer defined
+in the bundle configuration.
+ 
+This means that if you are using autowiring, you can simply typehint `SanitizerInterface` in any
+of your services to get the default sanitizer:
 
 ```php
 use HtmlSanitizer\SanitizerInterface;
@@ -86,7 +94,27 @@ class MyController
 ```
 
 If you are not using autowiring, you can inject the `html_sanitizer` service into your services
-manually.
+manually to get the default sanitizer.
+
+If you need to access other sanitizers than the default one in your services, you can either:
+
+1. inject a specific sanitizer by injecting it with your services configuration as
+  `html_sanitizer.<santizer-name>` (for instance, `html_sanitizer.admin_content`) ;
+
+2. use the sanitizers registry by injecting it with your services configuration as 
+   `html_sanitizer.registry`. It is a service locator mapping all the sanitizers available:
+  
+```php
+use Psr\Container\ContainerInterface;
+
+class MyService
+{
+    public function __construct(ContainerInterface $sanitizers)
+    {
+        // $sanitizers->get('admin_content') ...
+    }
+}
+```
 
 ## Usage in forms
 
@@ -108,7 +136,21 @@ class MyFormType extends AbstractType
         ;
     }
 }
-``` 
+```
+
+To use a different sanitizer than the default one, use the `sanitizer` option:
+
+```php
+class MyFormType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('content', TextareaType::class, ['sanitize_html' => true, 'sanitizer' => 'admin_content'])
+        ;
+    }
+}
+```
 
 ## Usage in Twig
 
@@ -122,6 +164,14 @@ A `sanitize_html` Twig filter is provided through an extension, letting you filt
 </div>
 ```
 
+To use a different sanitizer than the default one, add an argument to the filter:
+
+```php
+<div>
+    {{ html|sanitize_html('admin_content') }}
+</div>
+```
+
 ## Registering an extension
 
 If you use autoconfiguration, classes implementing the `HtmlSanitizer\Extension\ExtensionInterface` interface
@@ -129,8 +179,10 @@ will be automatically registered and you can use them in your sanitizer configur
 
 ```yaml
 html_sanitizer:
-    sanitizer:
-        extensions: ['basic', 'my-extension']
+    default_sanitizer: 'default'
+    sanitizers:
+        default:
+            extensions: ['basic', 'my-extension']
 ```
 
 If you don't use autoconfiguration, you need to register your extension as a service tagged `html_sanitizer.extension`:

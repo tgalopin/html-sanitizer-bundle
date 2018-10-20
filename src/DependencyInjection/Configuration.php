@@ -24,7 +24,17 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
 
         $rootNode = $treeBuilder->root('html_sanitizer');
-        $rootNode->children()->variableNode('sanitizer')->defaultValue([])->end()->end();
+
+        $rootNode
+            ->children()
+                ->scalarNode('default_sanitizer')->isRequired()->end()
+                ->arrayNode('sanitizers')
+                    ->isRequired()
+                    ->prototype('variable')->end()
+                    ->defaultValue([])
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

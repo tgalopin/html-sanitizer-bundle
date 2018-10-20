@@ -23,19 +23,13 @@ use Tests\HtmlSanitizer\Bundle\AppKernelTestTrait;
 
 class TextTypeExtensionTest extends TestCase
 {
-    public function testUseTextTypeExtension()
+    public function testDefault()
     {
         $kernel = new TextTypeExtensionAppKernel('test', 'dev');
         $kernel->boot();
 
         $container = $kernel->getContainer();
 
-        $expectedConfig = [
-            'extensions' => ['basic', 'image'],
-            'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
-        ];
-
-        $this->assertSame($expectedConfig, $container->getParameter('html_sanitizer.configuration'));
         $this->assertTrue($container->has('form.factory'));
 
         /** @var FormFactoryInterface $factory */
@@ -46,9 +40,31 @@ class TextTypeExtensionTest extends TestCase
             ->getForm()
         ;
 
-        $form->submit(['data' => file_get_contents(__DIR__.'/fixtures/input.html')]);
+        $form->submit(['data' => file_get_contents(__DIR__.'/fixtures/default/input.html')]);
 
-        $this->assertSame(trim(file_get_contents(__DIR__.'/fixtures/output.html')), trim($form->getData()['data']));
+        $this->assertSame(trim(file_get_contents(__DIR__.'/fixtures/default/output.html')), trim($form->getData()['data']));
+    }
+
+    public function testBasic()
+    {
+        $kernel = new TextTypeExtensionAppKernel('test', 'dev');
+        $kernel->boot();
+
+        $container = $kernel->getContainer();
+
+        $this->assertTrue($container->has('form.factory'));
+
+        /** @var FormFactoryInterface $factory */
+        $factory = $container->get('form.factory');
+
+        $form = $factory->createBuilder(FormType::class, ['data' => null])
+            ->add('data', TextType::class, ['required' => true, 'sanitize_html' => true, 'sanitizer' => 'basic'])
+            ->getForm()
+        ;
+
+        $form->submit(['data' => file_get_contents(__DIR__.'/fixtures/basic/input.html')]);
+
+        $this->assertSame(trim(file_get_contents(__DIR__.'/fixtures/basic/output.html')), trim($form->getData()['data']));
     }
 }
 
@@ -67,9 +83,15 @@ class TextTypeExtensionAppKernel extends Kernel
             $container->loadFromExtension('framework', ['secret' => '$ecret']);
 
             $container->loadFromExtension('html_sanitizer', [
-                'sanitizer' => [
-                    'extensions' => ['basic', 'image'],
-                    'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                'default_sanitizer' => 'default',
+                'sanitizers' => [
+                    'default' => [
+                        'extensions' => ['basic', 'image'],
+                        'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                    ],
+                    'basic' => [
+                        'extensions' => ['basic'],
+                    ],
                 ],
             ]);
         });

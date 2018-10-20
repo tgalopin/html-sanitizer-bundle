@@ -11,17 +11,19 @@
 
 namespace HtmlSanitizer\Bundle\Twig;
 
-use HtmlSanitizer\SanitizerInterface;
+use Psr\Container\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class TwigExtension extends AbstractExtension
 {
-    private $sanitizer;
+    private $sanitizers;
+    private $default;
 
-    public function __construct(SanitizerInterface $sanitizer)
+    public function __construct(ContainerInterface $sanitizers, string $default)
     {
-        $this->sanitizer = $sanitizer;
+        $this->sanitizers = $sanitizers;
+        $this->default = $default;
     }
 
     public function getFilters(): array
@@ -31,8 +33,8 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
-    public function sanitize(string $html): string
+    public function sanitize(string $html, string $sanitizer = null): string
     {
-        return $this->sanitizer->sanitize($html);
+        return $this->sanitizers->get($sanitizer ?: $this->default)->sanitize($html);
     }
 }

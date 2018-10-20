@@ -28,12 +28,6 @@ class TwigExtensionTest extends TestCase
 
         $container = $kernel->getContainer();
 
-        $expectedConfig = [
-            'extensions' => ['basic', 'image'],
-            'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
-        ];
-
-        $this->assertSame($expectedConfig, $container->getParameter('html_sanitizer.configuration'));
         $this->assertTrue($container->has('twig'));
 
         $this->assertSame(
@@ -59,9 +53,15 @@ class TwigExtensionAppKernel extends Kernel
             $container->loadFromExtension('twig', ['paths' => [__DIR__.'/templates']]);
 
             $container->loadFromExtension('html_sanitizer', [
-                'sanitizer' => [
-                    'extensions' => ['basic', 'image'],
-                    'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                'default_sanitizer' => 'default',
+                'sanitizers' => [
+                    'default' => [
+                        'extensions' => ['basic', 'image'],
+                        'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
+                    ],
+                    'basic' => [
+                        'extensions' => ['basic'],
+                    ],
                 ],
             ]);
         });
