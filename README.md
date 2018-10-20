@@ -17,6 +17,7 @@ library into Symfony applications. It provides helpful tools on top of the sanit
 - [Usage in services](#usage-in-services)
 - [Usage in forms](#usage-in-forms)
 - [Usage in Twig](#usage-in-twig)
+- [Registering an extension](#registering-an-extension)
 
 ## Installation
 
