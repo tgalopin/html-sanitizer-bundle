@@ -19,6 +19,9 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @final
+ */
 class TextTypeExtension extends AbstractTypeExtension
 {
     private $sanitizers;

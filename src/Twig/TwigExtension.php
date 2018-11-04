@@ -15,6 +15,9 @@ use Psr\Container\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
+/**
+ * @final
+ */
 class TwigExtension extends AbstractExtension
 {
     private $sanitizers;

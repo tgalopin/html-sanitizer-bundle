@@ -27,6 +27,8 @@ use Twig\Environment;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class HtmlSanitizerExtension extends Extension
 {
