@@ -36,6 +36,8 @@ composer require tgalopin/html-sanitizer-bundle
 You can configure the bundle using the `html_sanitizer` configuration section:
 
 ```yaml
+# config/packages/html_sanitizer.yaml
+
 html_sanitizer:
     default_sanitizer: 'default'
     sanitizers:

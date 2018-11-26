@@ -101,4 +101,3 @@ class TwigAppKernel extends Kernel
         });
     }
 }
-
