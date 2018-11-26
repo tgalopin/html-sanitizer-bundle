@@ -16,6 +16,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 class Configuration implements ConfigurationInterface
 {
