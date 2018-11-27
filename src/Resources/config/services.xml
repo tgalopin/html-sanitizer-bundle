@@ -7,7 +7,12 @@
     <services>
         <defaults public="false" />
 
-        <service id="html_sanitizer.builder" class="HtmlSanitizer\SanitizerBuilder" />
+        <service id="html_sanitizer.builder" class="HtmlSanitizer\SanitizerBuilder">
+            <call method="setLogger">
+                <argument type="service" id="logger" on-invalid="null" />
+            </call>
+            <tag name="monolog.logger" channel="html-sanitizer" />
+        </service>
 
         <service id="html_sanitizer.extension.basic" class="HtmlSanitizer\Extension\Basic\BasicExtension">
             <tag name="html_sanitizer.extension" />
