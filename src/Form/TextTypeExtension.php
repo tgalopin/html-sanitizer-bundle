@@ -33,9 +33,15 @@ class TextTypeExtension extends AbstractTypeExtension
         $this->default = $default;
     }
 
+    // needed for BC reasons
     public function getExtendedType()
     {
-        return TextType::class;
+        return self::getExtendedTypes()[0];
+    }
+
+    public static function getExtendedTypes()
+    {
+        return [TextType::class];
     }
 
     public function configureOptions(OptionsResolver $resolver)
