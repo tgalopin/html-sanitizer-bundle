@@ -24,7 +24,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('html_sanitizer');
-        $rootNode = $treeBuilder->getRootNode($treeBuilder, 'html_sanitizer');
+        $rootNode = $this->getRootNode($treeBuilder, 'html_sanitizer');
 
         $rootNode
             ->children()
