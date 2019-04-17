@@ -9,9 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\HtmlSanitizer\Bundle;
+namespace Tests\HtmlSanitizer\Bundle\Kernel;
 
-trait AppKernelTestTrait
+/**
+ * @internal
+ */
+trait KernelTestTrait
 {
     public function getCacheDir()
     {

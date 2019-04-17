@@ -11,21 +11,19 @@
 
 namespace Tests\HtmlSanitizer\Bundle\Form;
 
-use HtmlSanitizer\Bundle\HtmlSanitizerBundle;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Tests\HtmlSanitizer\Bundle\AppKernelTestTrait;
 
+/**
+ * @internal
+ */
 class TextTypeExtensionTest extends TestCase
 {
     public function testDefault()
     {
-        $kernel = new TextTypeExtensionAppKernel('test', 'dev');
+        $kernel = new TextTypeExtensionAppKernel('test', true);
         $kernel->boot();
 
         $container = $kernel->getContainer();
@@ -47,7 +45,7 @@ class TextTypeExtensionTest extends TestCase
 
     public function testBasic()
     {
-        $kernel = new TextTypeExtensionAppKernel('test', 'dev');
+        $kernel = new TextTypeExtensionAppKernel('test', true);
         $kernel->boot();
 
         $container = $kernel->getContainer();
@@ -68,32 +66,3 @@ class TextTypeExtensionTest extends TestCase
     }
 }
 
-class TextTypeExtensionAppKernel extends Kernel
-{
-    use AppKernelTestTrait;
-
-    public function registerBundles()
-    {
-        return [new FrameworkBundle(), new HtmlSanitizerBundle()];
-    }
-
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load(function ($container) {
-            $container->loadFromExtension('framework', ['secret' => '$ecret']);
-
-            $container->loadFromExtension('html_sanitizer', [
-                'default_sanitizer' => 'default',
-                'sanitizers' => [
-                    'default' => [
-                        'extensions' => ['basic', 'image'],
-                        'tags' => ['img' => ['allowed_hosts' => ['trusted.com']]],
-                    ],
-                    'basic' => [
-                        'extensions' => ['basic'],
-                    ],
-                ],
-            ]);
-        });
-    }
-}
