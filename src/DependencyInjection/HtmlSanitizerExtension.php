@@ -40,7 +40,8 @@ class HtmlSanitizerExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $this->registerExtensions($container);
+        $container->registerForAutoconfiguration(ExtensionInterface::class)->addTag('html_sanitizer.extension');
+
         $this->registerSanitizers($container, $config['sanitizers'], $config['default_sanitizer']);
 
         if (class_exists(TextType::class)) {
@@ -49,16 +50,6 @@ class HtmlSanitizerExtension extends Extension
 
         if (class_exists(Environment::class)) {
             $this->registerTwigExtension($container, $config['default_sanitizer']);
-        }
-    }
-
-    private function registerExtensions(ContainerBuilder $container)
-    {
-        $container->registerForAutoconfiguration(ExtensionInterface::class)->addTag('html_sanitizer.extension');
-
-        $builder = $container->getDefinition('html_sanitizer.builder');
-        foreach ($container->findTaggedServiceIds('html_sanitizer.extension') as $serviceId => $tags) {
-            $builder->addMethodCall('registerExtension', [new Reference($serviceId)]);
         }
     }
 
