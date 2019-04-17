@@ -33,4 +33,3 @@ class CustomExtensionTest extends TestCase
         $this->assertInstanceOf(SanitizerInterface::class, $sanitizer);
     }
 }
-

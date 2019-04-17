@@ -65,4 +65,3 @@ class TextTypeExtensionTest extends TestCase
         $this->assertSame(trim(file_get_contents(__DIR__.'/fixtures/basic/output.html')), trim($form->getData()['data']));
     }
 }
-
