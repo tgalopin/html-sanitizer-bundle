@@ -11,20 +11,22 @@
 
 namespace Tests\HtmlSanitizer\Bundle;
 
-use HtmlSanitizer\Bundle\HtmlSanitizerBundle;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Bundle\TwigBundle\TwigBundle;
-use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Tests\HtmlSanitizer\Bundle\Kernel\EmptyAppKernel;
+use Tests\HtmlSanitizer\Bundle\Kernel\FrameworkBundleAppKernel;
+use Tests\HtmlSanitizer\Bundle\Kernel\TwigBundleAppKernel;
 
+/**
+ * @internal
+ */
 class HtmlSanitizerBundleTest extends TestCase
 {
     public function provideKernels()
     {
         yield 'empty' => [new EmptyAppKernel('test', true)];
-        yield 'framework' => [new FrameworkAppKernel('test', true)];
-        yield 'twig' => [new TwigAppKernel('test', true)];
+        yield 'framework' => [new FrameworkBundleAppKernel('test', true)];
+        yield 'twig' => [new TwigBundleAppKernel('test', true)];
     }
 
     /**
@@ -33,71 +35,6 @@ class HtmlSanitizerBundleTest extends TestCase
     public function testBootKernel(Kernel $kernel)
     {
         $kernel->boot();
-
         $this->assertArrayHasKey('HtmlSanitizerBundle', $kernel->getBundles());
-    }
-}
-
-class EmptyAppKernel extends Kernel
-{
-    use AppKernelTestTrait;
-
-    public function registerBundles()
-    {
-        return [new HtmlSanitizerBundle()];
-    }
-
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load(function ($container) {
-            $container->loadFromExtension('html_sanitizer', [
-                'default_sanitizer' => 'default',
-                'sanitizers' => ['default' => ['extensions' => ['basic']]],
-            ]);
-        });
-    }
-}
-
-class FrameworkAppKernel extends Kernel
-{
-    use AppKernelTestTrait;
-
-    public function registerBundles()
-    {
-        return [new FrameworkBundle(), new HtmlSanitizerBundle()];
-    }
-
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load(function ($container) {
-            $container->loadFromExtension('framework', ['secret' => '$ecret']);
-
-            $container->loadFromExtension('html_sanitizer', [
-                'default_sanitizer' => 'default',
-                'sanitizers' => ['default' => ['extensions' => ['basic']]],
-            ]);
-        });
-    }
-}
-
-class TwigAppKernel extends Kernel
-{
-    use AppKernelTestTrait;
-
-    public function registerBundles()
-    {
-        return [new FrameworkBundle(), new TwigBundle(), new HtmlSanitizerBundle()];
-    }
-
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load(function ($container) {
-            $container->loadFromExtension('framework', ['secret' => '$ecret']);
-
-            $container->loadFromExtension('html_sanitizer', [
-                'default_sanitizer' => 'default',
-                'sanitizers' => ['default' => ['extensions' => ['basic']]],
-            ]);
-        });
     }
 }

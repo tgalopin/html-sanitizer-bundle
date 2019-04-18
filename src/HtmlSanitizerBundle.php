@@ -11,6 +11,8 @@
 
 namespace HtmlSanitizer\Bundle;
 
+use HtmlSanitizer\Bundle\DependencyInjection\CompilerPass\RegisterUserExtensionsCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -20,4 +22,10 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class HtmlSanitizerBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new RegisterUserExtensionsCompilerPass());
+    }
 }
