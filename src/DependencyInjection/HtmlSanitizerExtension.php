@@ -72,7 +72,7 @@ class HtmlSanitizerExtension extends Extension
 
             if ($name === $default) {
                 $container->setAlias(SanitizerInterface::class, 'html_sanitizer.'.$name);
-                $container->setDefinition('html_sanitizer', $definition);
+                $container->setAlias('html_sanitizer', 'html_sanitizer.'.$name);
             }
 
             $refMap[$name] = new ServiceClosureArgument(new Reference('html_sanitizer.'.$name));
