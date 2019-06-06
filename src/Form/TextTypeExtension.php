@@ -36,10 +36,12 @@ class TextTypeExtension extends AbstractTypeExtension
     // needed for BC reasons
     public function getExtendedType()
     {
-        return self::getExtendedTypes()[0];
+        foreach (static::getExtendedTypes() as $extendedType) {
+            return $extendedType;
+        }
     }
 
-    public static function getExtendedTypes()
+    public static function getExtendedTypes(): iterable
     {
         return [TextType::class];
     }
