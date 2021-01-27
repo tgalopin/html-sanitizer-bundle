@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\HttpKernel\Kernel;
 use Twig\Environment;
 
 /**
@@ -73,6 +74,10 @@ class HtmlSanitizerExtension extends Extension
             if ($name === $default) {
                 $container->setAlias(SanitizerInterface::class, 'html_sanitizer.'.$name);
                 $container->setAlias('html_sanitizer', 'html_sanitizer.'.$name);
+            }
+
+            if (Kernel::VERSION_ID > 40200) {
+                $container->registerAliasForArgument('html_sanitizer.'.$name, SanitizerInterface::class, $name);
             }
 
             $refMap[$name] = new ServiceClosureArgument(new Reference('html_sanitizer.'.$name));
