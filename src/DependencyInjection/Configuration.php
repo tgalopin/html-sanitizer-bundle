@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('default_sanitizer')->isRequired()->end()
                 ->arrayNode('sanitizers')
                     ->isRequired()
+                    ->useAttributeAsKey('name')
                     ->prototype('variable')->end()
                     ->defaultValue([])
                 ->end()
