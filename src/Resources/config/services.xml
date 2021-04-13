@@ -42,6 +42,10 @@
             <tag name="html_sanitizer.extension" />
         </service>
 
+        <service id="html_sanitizer.extension.details" class="HtmlSanitizer\Extension\Details\DetailsExtension">
+            <tag name="html_sanitizer.extension" />
+        </service>
+
         <service id="html_sanitizer.registry" class="Symfony\Component\DependencyInjection\ServiceLocator" />
     </services>
 </container>
