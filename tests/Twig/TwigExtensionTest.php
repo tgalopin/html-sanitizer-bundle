@@ -25,11 +25,9 @@ class TwigExtensionTest extends TestCase
 
         $container = $kernel->getContainer();
 
-        $this->assertTrue($container->has('twig'));
-
         $this->assertSame(
             trim(file_get_contents(__DIR__.'/templates/output.html')),
-            trim($container->get('twig')->render('input.html.twig'))
+            trim($container->get('test.twig')->render('input.html.twig'))
         );
     }
 }

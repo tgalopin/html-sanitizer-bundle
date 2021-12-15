@@ -26,7 +26,7 @@ class TwigExtensionAppKernel extends Kernel
 {
     use KernelTestTrait;
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [new FrameworkBundle(), new TwigBundle(), new HtmlSanitizerBundle()];
     }
@@ -49,6 +49,8 @@ class TwigExtensionAppKernel extends Kernel
                     ],
                 ],
             ]);
+
+            $container->setAlias('test.twig', 'twig')->setPublic(true);
         });
     }
 }

@@ -1,8 +1,7 @@
 # html-sanitizer-bundle
 
-[![Build Status](https://travis-ci.org/tgalopin/html-sanitizer-bundle.svg?branch=master)](https://travis-ci.org/tgalopin/html-sanitizer-bundle)
-
-[![SymfonyInsight](https://insight.symfony.com/projects/760ca691-4f3a-4cd6-9b3e-bf131ffc07c7/big.svg)](https://insight.symfony.com/projects/760ca691-4f3a-4cd6-9b3e-bf131ffc07c7)
+[![Packagist Version](https://img.shields.io/packagist/v/tgalopin/html-sanitizer-bundle.svg?style=flat-square)](https://packagist.org/packages/tgalopin/html-sanitizer-bundle)
+[![Software license](https://img.shields.io/github/license/tgalopin/html-sanitizer-bundle.svg?style=flat-square)](https://github.com/tgalopin/html-sanitizer-bundle/blob/master/LICENSE)
 
 [html-sanitizer](https://github.com/tgalopin/html-sanitizer)
 is a library aiming at handling, cleaning and sanitizing HTML sent by external users

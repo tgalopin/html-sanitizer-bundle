@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpParamsInspection */
+
 /*
  * This file is part of the HTML sanitizer project.
  *
@@ -25,7 +27,7 @@ class TextTypeExtensionAppKernel extends Kernel
 {
     use KernelTestTrait;
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [new FrameworkBundle(), new HtmlSanitizerBundle()];
     }
@@ -33,7 +35,13 @@ class TextTypeExtensionAppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(function (ContainerBuilder $container) {
-            $container->loadFromExtension('framework', ['secret' => '$ecret']);
+            $frameworkConfig = ['secret' => '$ecret'];
+            if (Kernel::VERSION_ID > 50000) {
+                $frameworkConfig['form'] = ['enabled' => true];
+                $frameworkConfig['property_access'] = ['enabled' => true];
+            }
+
+            $container->loadFromExtension('framework', $frameworkConfig);
 
             $container->loadFromExtension('html_sanitizer', [
                 'default_sanitizer' => 'default',
@@ -47,6 +55,8 @@ class TextTypeExtensionAppKernel extends Kernel
                     ],
                 ],
             ]);
+
+            $container->setAlias('test.form.factory', 'form.factory')->setPublic(true);
         });
     }
 }

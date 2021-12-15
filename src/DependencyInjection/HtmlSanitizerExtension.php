@@ -57,11 +57,7 @@ class HtmlSanitizerExtension extends Extension
     private function registerSanitizers(ContainerBuilder $container, array $sanitizers, string $default)
     {
         if (!array_key_exists($default, $sanitizers)) {
-            throw new \InvalidArgumentException(sprintf(
-                'You have configured a non-existent default sanitizer "%s" (available sanitizers: %s)',
-                $default,
-                implode(', ', array_keys($sanitizers))
-            ));
+            throw new \InvalidArgumentException(sprintf('You have configured a non-existent default sanitizer "%s" (available sanitizers: %s)', $default, implode(', ', array_keys($sanitizers))));
         }
 
         $refMap = [];

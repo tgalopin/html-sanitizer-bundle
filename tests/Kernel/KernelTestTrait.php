@@ -16,12 +16,12 @@ namespace Tests\HtmlSanitizer\Bundle\Kernel;
  */
 trait KernelTestTrait
 {
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->createTmpDir('cache');
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return $this->createTmpDir('logs');
     }
