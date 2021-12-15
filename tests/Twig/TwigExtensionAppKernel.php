@@ -49,6 +49,8 @@ class TwigExtensionAppKernel extends Kernel
                     ],
                 ],
             ]);
+
+            $container->setAlias('test.twig', 'twig')->setPublic(true);
         });
     }
 }

@@ -29,7 +29,7 @@ class TextTypeExtensionTest extends TestCase
         $container = $kernel->getContainer();
 
         /** @var FormFactoryInterface $factory */
-        $factory = $container->get('form.factory');
+        $factory = $container->get('test.form.factory');
 
         $form = $factory->createBuilder(FormType::class, ['data' => null])
             ->add('data', TextType::class, ['required' => true, 'sanitize_html' => true])
@@ -49,7 +49,7 @@ class TextTypeExtensionTest extends TestCase
         $container = $kernel->getContainer();
 
         /** @var FormFactoryInterface $factory */
-        $factory = $container->get('form.factory');
+        $factory = $container->get('test.form.factory');
 
         $form = $factory->createBuilder(FormType::class, ['data' => null])
             ->add('data', TextType::class, ['required' => true, 'sanitize_html' => true, 'sanitizer' => 'basic'])
