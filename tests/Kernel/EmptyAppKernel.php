@@ -23,7 +23,7 @@ class EmptyAppKernel extends Kernel
 {
     use KernelTestTrait;
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [new HtmlSanitizerBundle()];
     }

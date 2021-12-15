@@ -26,7 +26,7 @@ class CustomExtensionAppKernel extends Kernel
 {
     use KernelTestTrait;
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [new FrameworkBundle(), new HtmlSanitizerBundle()];
     }

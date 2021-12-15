@@ -28,8 +28,6 @@ class TextTypeExtensionTest extends TestCase
 
         $container = $kernel->getContainer();
 
-        $this->assertTrue($container->has('form.factory'));
-
         /** @var FormFactoryInterface $factory */
         $factory = $container->get('form.factory');
 
@@ -49,8 +47,6 @@ class TextTypeExtensionTest extends TestCase
         $kernel->boot();
 
         $container = $kernel->getContainer();
-
-        $this->assertTrue($container->has('form.factory'));
 
         /** @var FormFactoryInterface $factory */
         $factory = $container->get('form.factory');
