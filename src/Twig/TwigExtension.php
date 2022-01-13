@@ -36,8 +36,8 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
-    public function sanitize(?string $html = null, string $sanitizer = null): string
+    public function sanitize(?string $html = null, string $sanitizer = null): ?string
     {
-        return $html ?: $this->sanitizers->get($sanitizer ?: $this->default)->sanitize($html);
+        return $html ? $this->sanitizers->get($sanitizer ?: $this->default)->sanitize($html) : null;
     }
 }
