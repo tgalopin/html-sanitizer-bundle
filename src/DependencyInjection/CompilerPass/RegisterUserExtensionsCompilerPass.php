@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterUserExtensionsCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $builder = $container->getDefinition('html_sanitizer.builder');
         foreach ($container->findTaggedServiceIds('html_sanitizer.extension') as $serviceId => $tags) {
