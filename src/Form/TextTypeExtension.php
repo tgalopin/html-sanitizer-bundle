@@ -46,7 +46,7 @@ class TextTypeExtension extends AbstractTypeExtension
         return [TextType::class];
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults(['sanitize_html' => false, 'sanitizer' => null])
@@ -55,7 +55,7 @@ class TextTypeExtension extends AbstractTypeExtension
         ;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if ($options['sanitize_html']) {
             $builder->addEventListener(
